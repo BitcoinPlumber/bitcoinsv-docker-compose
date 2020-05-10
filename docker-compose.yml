@@ -6,8 +6,8 @@ services:
     healthcheck:
       test: ["CMD", "/entrypoint.sh", "bitcoin-cli", "getinfo"]
     ports:
-      - "9333:9333"
-      - "9332:9332"
+      - "8333:8333"
+      - "8332:8332"
     volumes:
       - bitcoin-data:/data/
       - ./bitcoin.conf:/data/bitcoin.conf
