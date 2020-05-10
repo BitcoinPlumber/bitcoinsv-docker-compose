@@ -1,0 +1,28 @@
+version: "3"
+services:
+  bitcoind:
+    image: bitcoinsv/bitcoin-sv
+    command: bitcoind
+    healthcheck:
+      test: ["CMD", "/entrypoint.sh", "bitcoin-cli", "getinfo"]
+    ports:
+      - "9333:9333"
+      - "9332:9332"
+    volumes:
+      - bitcoin-data:/data/
+      - ./bitcoin.conf:/data/bitcoin.conf
+    networks:
+      - bitcoin
+  bitcoin-cli:
+    image: bitcoinsv/bitcoin-sv
+    entrypoint: ["/entrypoint.sh", "bitcoin-cli"]
+    command: ""
+    depends_on:
+      - bitcoind
+    network_mode: service:bitcoind
+    volumes:
+      - ./bitcoin.conf:/data/bitcoin.conf
+networks:
+  bitcoin:
+volumes:
+  bitcoin-data:
